@@ -3,11 +3,14 @@ package com.example.electronicstore.service.impl;
 
 import com.example.electronicstore.dto.UserDto;
 import com.example.electronicstore.entity.User;
+import com.example.electronicstore.helper.ImageService;
+import com.example.electronicstore.helper.PathMapper;
 import com.example.electronicstore.repository.UserRepo;
 import com.example.electronicstore.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +22,10 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private PathMapper pathMapper;
 
     @Override
     public UserDto addUser(UserDto userDto) {
@@ -60,5 +67,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeUser(String userId) {
         userRepo.deleteById(userId);
+    }
+
+    @Override
+    public String uploadUserImage(String userId, MultipartFile image) {
+        User user = userRepo.findById(userId).get();
+        boolean isUploaded = imageService.uploadImage(image, pathMapper.getUser());
+
+        if(isUploaded){
+            user.setUserImage(image.getOriginalFilename());
+            userRepo.save(user);
+        }
+
+        return "User image uploaded successfully.";
     }
 }

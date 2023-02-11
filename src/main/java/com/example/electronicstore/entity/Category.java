@@ -3,6 +3,9 @@ package com.example.electronicstore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 @Getter
@@ -19,5 +22,10 @@ public class Category {
     private String categoryTitle;
 
     private String description;
+
+    @Column(name = "image")
     private String categoryImage;
+
+    @OneToMany(mappedBy = "category" , cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Product> product = new ArrayList<>();
 }

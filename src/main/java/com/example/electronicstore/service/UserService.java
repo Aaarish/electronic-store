@@ -1,6 +1,7 @@
 package com.example.electronicstore.service;
 
 import com.example.electronicstore.dto.UserDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface UserService {
 
     //remove user
     void removeUser(String userId);
+
+    String uploadUserImage(String userId, MultipartFile image);
 }
