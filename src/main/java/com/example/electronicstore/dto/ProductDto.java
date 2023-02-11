@@ -13,7 +13,7 @@ public class ProductDto {
     private int productId;
     private String ProductName;
     private CategoryDto category;
-    private String price;
+    private int price;
     private boolean stock;
     private boolean live;
 }

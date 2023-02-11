@@ -23,7 +23,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String price;
+    private int price;
     private boolean stock;
     private boolean live;
 }
