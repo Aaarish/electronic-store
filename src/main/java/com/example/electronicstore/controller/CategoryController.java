@@ -60,4 +60,9 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.assignProductToCategory(categoryTitle, productId));
     }
 
+    @GetMapping("/products/{categoryTitle}")
+    public ResponseEntity<List<ProductDto>> getProductsOfCategory(@PathVariable String categoryTitle){
+        return ResponseEntity.ok(categoryService.getProductsOfCategory(categoryTitle));
+    }
+
 }

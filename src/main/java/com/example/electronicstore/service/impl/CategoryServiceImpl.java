@@ -109,4 +109,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         return modelMapper.map(savedProduct, ProductDto.class);
     }
+
+    @Override
+    public List<ProductDto> getProductsOfCategory(String categoryTitle) {
+        Category category = categoryRepo.findByCategoryTitle(categoryTitle);
+
+        List<Product> products = category.getProduct();
+
+        return products.stream().map(p -> modelMapper.map(p, ProductDto.class)).collect(Collectors.toList());
+    }
 }

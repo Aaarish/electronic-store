@@ -32,4 +32,6 @@ public interface CategoryService {
     //assign category to product
     ProductDto assignProductToCategory(String categoryTitle, int productId);
 
+    //get all products of a category
+    List<ProductDto> getProductsOfCategory(String categoryTitle);
 }
