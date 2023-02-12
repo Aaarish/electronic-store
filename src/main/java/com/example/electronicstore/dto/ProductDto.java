@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class ProductDto {
     private int productId;
-    private String ProductName;
+    private String productName;
     private CategoryDto category;
     private int price;
     private boolean stock;
