@@ -1,7 +1,7 @@
 package com.example.electronicstore.controller;
 
 import com.example.electronicstore.dto.CartDto;
-import com.example.electronicstore.dto.requests.AddItemToCartRequest;
+import com.example.electronicstore.dto.request.AddItemToCartRequest;
 import com.example.electronicstore.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

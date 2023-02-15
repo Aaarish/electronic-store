@@ -1,4 +1,4 @@
-package com.example.electronicstore.dto.requests;
+package com.example.electronicstore.dto.request;
 
 import lombok.*;
 

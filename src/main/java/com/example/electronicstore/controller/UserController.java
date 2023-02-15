@@ -1,8 +1,10 @@
 package com.example.electronicstore.controller;
 
 import com.example.electronicstore.dto.UserDto;
+import com.example.electronicstore.dto.response.PageableResponse;
 import com.example.electronicstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +48,10 @@ public class UserController {
     @PostMapping("/image/{userId}")
     public ResponseEntity<String> uploadUserImage(@PathVariable String userId, @RequestParam("img") MultipartFile image){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.uploadUserImage(userId, image));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<PageableResponse<UserDto>> getUserPage(@RequestParam(defaultValue = "0") int pageNumber,@RequestParam(defaultValue = "2") int pageSize, @RequestParam(defaultValue = "name") String sortBy, @RequestParam(defaultValue = "asc") String sortDir){
+        return ResponseEntity.ok(userService.getUsersPage(pageNumber, pageSize, sortBy, sortDir));
     }
 }

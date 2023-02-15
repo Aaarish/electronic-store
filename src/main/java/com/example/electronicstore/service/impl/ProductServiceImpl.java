@@ -2,12 +2,16 @@ package com.example.electronicstore.service.impl;
 
 import com.example.electronicstore.dto.ProductDto;
 import com.example.electronicstore.entity.Product;
+import com.example.electronicstore.exception.ErrorModel;
+import com.example.electronicstore.exception.ErrorType;
+import com.example.electronicstore.exception.ResourceNotFoundException;
 import com.example.electronicstore.repository.ProductRepo;
 import com.example.electronicstore.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String updateProduct(int productId, ProductDto productDto) {
-        Product product = productRepo.findById(productId).get();
+        Product product = productRepo.findById(productId).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No product found with this id"))
+        ));
 
         product.setProductName(productDto.getProductName());
         product.setPrice(productDto.getPrice());
@@ -47,7 +53,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(int productId) {
-        Product product = productRepo.findById(productId).get();
+        Product product = productRepo.findById(productId).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No product found with this id"))
+        ));
         return modelMapper.map(product, ProductDto.class);
     }
 

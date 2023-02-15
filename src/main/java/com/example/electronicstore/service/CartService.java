@@ -1,7 +1,7 @@
 package com.example.electronicstore.service;
 
 import com.example.electronicstore.dto.CartDto;
-import com.example.electronicstore.dto.requests.AddItemToCartRequest;
+import com.example.electronicstore.dto.request.AddItemToCartRequest;
 
 public interface CartService {
 

@@ -5,6 +5,9 @@ import com.example.electronicstore.entity.Cart;
 import com.example.electronicstore.entity.Order;
 import com.example.electronicstore.entity.OrderItem;
 import com.example.electronicstore.entity.User;
+import com.example.electronicstore.exception.ErrorModel;
+import com.example.electronicstore.exception.ErrorType;
+import com.example.electronicstore.exception.ResourceNotFoundException;
 import com.example.electronicstore.repository.CartRepo;
 import com.example.electronicstore.repository.OrderRepo;
 import com.example.electronicstore.repository.UserRepo;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -78,8 +82,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String deleteOrder(String userId) {
-        User user = userRepo.findById(userId).get();
-        Order order = orderRepo.findByUser(user).get();
+        User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No user found with this id"))
+        ));
+        Order order = orderRepo.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No order found with this user"))
+        ));
 
         orderRepo.delete(order);
         return "Order cancelled successfully";
@@ -87,8 +95,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrder(String userId) {
-        User user = userRepo.findById(userId).get();
-        Order order = orderRepo.findByUser(user).get();
+        User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No user found with this id"))
+        ));
+        Order order = orderRepo.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No order found with this user"))
+        ));
 
         return modelMapper.map(order, OrderDto.class);
     }

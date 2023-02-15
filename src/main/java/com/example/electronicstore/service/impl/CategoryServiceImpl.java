@@ -4,6 +4,9 @@ import com.example.electronicstore.dto.CategoryDto;
 import com.example.electronicstore.dto.ProductDto;
 import com.example.electronicstore.entity.Category;
 import com.example.electronicstore.entity.Product;
+import com.example.electronicstore.exception.ErrorModel;
+import com.example.electronicstore.exception.ErrorType;
+import com.example.electronicstore.exception.ResourceNotFoundException;
 import com.example.electronicstore.helper.ImageService;
 import com.example.electronicstore.helper.PathMapper;
 import com.example.electronicstore.repository.CategoryRepo;
@@ -13,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -101,7 +106,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ProductDto assignProductToCategory(String categoryTitle, int productId) {
-        Product product = productRepo.findById(productId).get();
+        Product product = productRepo.findById(productId).orElseThrow(() -> new ResourceNotFoundException(
+                Arrays.asList(new ErrorModel(ErrorType.RESOURCE_NOT_FOUND, "No product found with this id"))
+        ));
         Category category = categoryRepo.findByCategoryTitle(categoryTitle);
 
         product.setCategory(category);
